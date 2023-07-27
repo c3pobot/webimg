@@ -1,0 +1,23 @@
+{
+  "name": "webimg",
+  "version": "1.0.0",
+  "description": "create html for images",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/c3po-modules/webimg.git"
+  },
+  "author": "scuba",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/c3po-modules/webimg/issues"
+  },
+  "homepage": "https://gitlab.com/c3po-modules/webimg#readme",
+  "dependencies": {
+    "json-array-sorter": "0.0.5",
+    "numeral": "^2.0.6"
+  }
+}

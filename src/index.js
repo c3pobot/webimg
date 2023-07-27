@@ -1,0 +1,19 @@
+'use strict'
+const Cmds = {}
+Cmds.arena = require('./arena')
+Cmds.chart = require('./chart')
+Cmds.conquest = require('./conquest')
+Cmds.counter = require('./counter')
+Cmds.datacron = require('./datacron')
+Cmds.faction = require('./faction')
+Cmds.ga = require('./ga')
+Cmds.gear = require('./gear')
+Cmds.inventory = require('./inventory')
+Cmds.omicron = require('./omicron')
+Cmds.raid = require('./raid')
+Cmds.squads = require('./squads')
+Cmds.unit = require('./unit')
+Cmds.tb = require('./tb')
+Cmds.tbPlatoons = require('./tbPlatoons')
+Cmds.tw = require('./tw')
+module.exports = Cmds

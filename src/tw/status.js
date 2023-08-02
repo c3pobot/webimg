@@ -2,7 +2,7 @@
 const isOdd = (num)=>{
   return num % 2
 }
-module.exports = async(data = {})=>{
+module.exports = (data = {})=>{
   try{
     let html = '<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0">'
     html += '<link href="https://fonts.googleapis.com/css?family=Antic" rel="stylesheet">'
@@ -53,7 +53,8 @@ module.exports = async(data = {})=>{
     html += '</table>'
     html += '</body>'
     html += '</html>'
-    if(html && data?.banners) return await HP.GetImg(html, 1240, false)
+    return html
+
   }catch(e){
     console.error(e);
   }

@@ -3,11 +3,16 @@ const squadStatusMap = {
   "SQUADAVAILABLE": "Loss",
   "SQUADDEFEATED": "Win"
 }
-const getBattle = (battle = {})=>{
+const isOdd = (num)=>{
+  return num % 2
+}
+const getBattle = (battle = {}, oddCount)=>{
   let battleStatus = squadStatusMap[battle.squadStatus]
   if(battle.playerPreloaded) battleStatus = 'Preloaded'
+  let rowCSS = 'battle-even'
+  if(isOdd(oddCount)) rowCSS = 'battle-odd'
   let html = '<tr>'
-    html += `<td>${battle.battleNum?.toString()?.padStart(2, 0)} ${battle.playerName}`
+    html += `<td class="${rowCSS}">${battle.battleNum?.toString()?.padStart(2, 0)} ${battle.playerName}`
     if(battle.squadStatus === 'UNKNOWN'){
       html += ` - Unknown`
     }else{
@@ -18,10 +23,14 @@ const getBattle = (battle = {})=>{
 }
 
 const getSquadLog = (squad = {})=>{
-  let html = `<tr><td>${squad.playerName} - ${squad.leader} (${squad.battleCount})<td></tr>`
-  html += '<tr><td>'
-    html += '<table width="100%">'
-      for(let i in squad.log) html += getBattle(squad.log[i])
+  let oddCount = 0
+  let html = `<tr><td class="squad-name">${squad.playerName} - ${squad.leader} (${squad.battleCount})<td></tr>`
+  html += '<tr><td class="squad-row">'
+    html += '<table class="squad-table" width="100%">'
+      for(let i in squad.log){
+        html += getBattle(squad.log[i], oddCount)
+        ++oddCount;
+      }
     html += '</table>'
   html += '</td></tr>'
   return html
@@ -40,6 +49,7 @@ module.exports = ({ squads = [], profile = {} })=>{
       }else{
         html += `<tr><td>There is no battle history available for this zone</td></tr>`
       }
+    html += `<tr><td class="footer">${(new Date()).toLocaleString('en-US', {timeZone: 'America/New_York'})}</td></tr>`
     html += '</table>'
     html += '</body>'
     html += '</html>'

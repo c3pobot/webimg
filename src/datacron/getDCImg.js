@@ -11,38 +11,34 @@ const enumTier = {
   8: 2,
   9: 3
 }
-module.exports = async(datacron = {}, dcDef = {})=>{
-  try{
-    let abilityIcon, level = datacron.affix.length
-    if(datacron.affix[2]) abilityIcon = datacron.affix[2].scopeIcon
-    if(datacron.affix[5]) abilityIcon = datacron.affix[5].scopeIcon
-    if(datacron.affix[8]) abilityIcon = datacron.affix[8].scopeIcon
-    let html = '<div class="gac-datacron">'
-      html += '<div class="datacron-icon">'
-        html += '<span>'
-          html += '<div>'
-            html += '<div class="datacron-icon__icon datacron-icon__icon--size-sm">'
-              if(abilityIcon){
-                html += '<div class="datacron-icon__callout-affix datacron-icon__callout-affix--size-sm">'
-                   html += '<img class="datacron-icon__callout-affix-img" src=/thumbnail/'+abilityIcon+'.png>'
-                html += '</div>'
-              }             
-              html += '<div class="datacron-icon__bg datacron-icon__bg--tier-'+enumTier[datacron.affix.length]+'"></div>'
-              html += '<div class="datacron-icon__box">'
-                html += '<img class="datacron-icon__box-img" src="thumbnail/'+dcDef.iconKey+'.png">'
+module.exports = (datacron = {}, dcDef = {})=>{
+  let abilityIcon, level = datacron.affix.length
+  if(datacron.affix[2]) abilityIcon = datacron.affix[2].scopeIcon
+  if(datacron.affix[5]) abilityIcon = datacron.affix[5].scopeIcon
+  if(datacron.affix[8]) abilityIcon = datacron.affix[8].scopeIcon
+  let html = '<div class="gac-datacron">'
+    html += '<div class="datacron-icon">'
+      html += '<span>'
+        html += '<div>'
+          html += '<div class="datacron-icon__icon datacron-icon__icon--size-sm">'
+            if(abilityIcon){
+              html += '<div class="datacron-icon__callout-affix datacron-icon__callout-affix--size-sm">'
+                 html += '<img class="datacron-icon__callout-affix-img" src=/thumbnail/'+abilityIcon+'.png>'
               html += '</div>'
-              html += '<div class="datacron-icon__primaries datacron-icon__primaries--size-sm">'
-                html += '<div class="datacron-icon__primary datacron-icon__primary--size-sm datacron-icon__primary--first'+(datacron.affix.length > 2 ? ' datacron-icon__primary--is-active':'')+'"></div>'
-                html += '<div class="datacron-icon__primary datacron-icon__primary--size-sm datacron-icon__primary--second'+(datacron.affix.length > 5 ? ' datacron-icon__primary--is-active':'')+'"></div>'
-                html += '<div class="datacron-icon__primary datacron-icon__primary--size-sm datacron-icon__primary--third'+(datacron.affix.length > 8 ? ' datacron-icon__primary--is-active':'')+'"></div>'
-              html += '</div>'
+            }
+            html += '<div class="datacron-icon__bg datacron-icon__bg--tier-'+enumTier[datacron.affix.length]+'"></div>'
+            html += '<div class="datacron-icon__box">'
+              html += '<img class="datacron-icon__box-img" src="thumbnail/'+dcDef.iconKey+'.png">'
+            html += '</div>'
+            html += '<div class="datacron-icon__primaries datacron-icon__primaries--size-sm">'
+              html += '<div class="datacron-icon__primary datacron-icon__primary--size-sm datacron-icon__primary--first'+(datacron.affix.length > 2 ? ' datacron-icon__primary--is-active':'')+'"></div>'
+              html += '<div class="datacron-icon__primary datacron-icon__primary--size-sm datacron-icon__primary--second'+(datacron.affix.length > 5 ? ' datacron-icon__primary--is-active':'')+'"></div>'
+              html += '<div class="datacron-icon__primary datacron-icon__primary--size-sm datacron-icon__primary--third'+(datacron.affix.length > 8 ? ' datacron-icon__primary--is-active':'')+'"></div>'
             html += '</div>'
           html += '</div>'
-        html += '</span>'
-      html += '</div>'
+        html += '</div>'
+      html += '</span>'
     html += '</div>'
-    return html
-  }catch(e){
-    console.error(e);
-  }
+  html += '</div>'
+  return html
 }

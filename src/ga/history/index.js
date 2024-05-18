@@ -1,4 +1,5 @@
 'use strict'
+const { dataList } = require('src/helpers/dataList')
 const GetUnitImg = require('./getUnitImg')
 const GetDataCron = require('./getDatacron')
 const enumBattleOutcome = {
@@ -26,7 +27,7 @@ const getBanners = (attack = [], defense = [], mode, attempt)=>{
 }
 const GetSquad = async(units = {})=>{
   let html = ''
-  for(let i in units) html += await GetUnitImg(units[i], unitList[units[i].definitionId?.split(':')[0]])
+  for(let i in units) html += await GetUnitImg(units[i], dataList?.unitList[units[i].definitionId?.split(':')[0]])
   return html
 }
 const getBattleLength = (startTime, endTime)=>{
@@ -56,7 +57,7 @@ const GetBattle = async(battle = {}, battles = [], mode)=>{
     let repeatBattles = battles.filter(x=>x.defenderUnit.filter(y=>y.definitionId === leader.definitionId).length > 0)
     let battleAttempt = await getBattleAttempt(battle.startTime, repeatBattles)
     let combatType = 1, banners
-    if(unitList[leader?.squadUnitType === 3]) combatType = 2
+    if(dataList?.unitList[leader?.squadUnitType === 3]) combatType = 2
     if(combatType === 1 && battle.battleOutcome === 1) banners = getBanners(battle.attackerUnit, battle.defenderUnit, mode, battleAttempt)
     let html = '<tr><td'+(battle.battleOutcome !== 1 ? ' class="battle-loss"':'')+'>'
     html += '<div class="list-group-item">'

@@ -17,7 +17,7 @@ module.exports = async(unit = {}, info = {})=>{
     html += '<td valign="top">'
     //unit start
       html += '<table class="unit-image-inner">'
-      html += '<tr><td colspan="2"><table class="unit-portrait" background="/portrait/'+unit.thumbnailName+'.png">'
+      html += `<tr><td colspan="2"><table class="unit-portrait" background="${(unit.image_link || `/portrait/${unit.thumbnailName}.png`)}">`
       html += '<tr><td class="unit-name">'+unit.nameKey+'</td></tr>'
       html += '<tr><td colspan="3">&nbsp;</td></tr>'
         //unitextra start

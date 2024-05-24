@@ -31,8 +31,8 @@ module.exports = async(unit1 = {}, unit2 = {}, uInfo = {})=>{
       if(isOdd(oddCount)) bkImg = 'stat-odd'
       oddCount++;
       html += '<tr class="'+bkImg+'"><td class="unit-stat">'+unit1.addStats[i].nameKey+' : </td>'
-        html += '<td class="unit-stat">'+unit1.addStats[i].value+'</td>'
-        html += '<td class="unit-stat">'+unit2.addStats[i].value+'</td>'
+        html += '<td class="unit-stat">'+unit1.addStats[i]?.value+'</td>'
+        html += '<td class="unit-stat">'+unit2.addStats[i]?.value+'</td>'
       html += '</tr>'
     }
   }

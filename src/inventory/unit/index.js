@@ -37,7 +37,7 @@ module.exports = async(gear = [], relic = [], uInfo = {}, info = {})=>{
           oddCount++
           html += '<tr class="'+bkImg+'"><td colspan="3">You have all the gear needed for G'+info.gearLevel+'</td></tr>'
         }
-        if(info?.gearLevel === 13){
+        if(info?.gearLevel === 13 && info.relicLevel > 0){
           if(relic?.length > 0){
             if(isOdd(oddCount)){
               bkImg = 'gear-odd'

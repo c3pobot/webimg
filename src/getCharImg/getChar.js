@@ -4,10 +4,14 @@ const enumAlignment = {
   light: 2,
   dark: 3
 }
-module.exports = (obj, showName = true)=>{
+module.exports = (obj = {}, showName = true)=>{
   try{
     let html = '<div>', reqClass ='requirement-'+(obj.notMet ? 'not-met':'met')
-      if(obj?.showStats) reqClass += '-stats-'+(obj.statsNotMet ? 'not-':'')+'met'
+      if(obj?.showStats){
+        reqClass += '-stats-'+(obj.statsNotMet ? 'not-':'')+'met'
+      }else{
+        if(obj?.notMet && obj?.rarityMet) reqClass = 'requirement-met-stats-not-met'
+      }
       html += '<div class="col-xs-6 col-sm-3 col-md-3 col-lg-2"><div class="collection-char">'
 
       html += '<div class="character-portrait">'

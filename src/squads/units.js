@@ -13,8 +13,9 @@ const GetSquadHTML = async(squadData = {}, opts = {})=>{
       if(opts.showStats){
         units[i].showStats = opts.showStats
         unitClass += '-stats-'+(units[i].statsNotMet ? 'not-':'')+'met'
+      }else{
+        if(units[i].notMet && units[i].rarityMet) unitClass = 'unit-met-stats-not-met'
       }
-
       if(colCount == 0) html += '<tr>';
       colCount++;
       html += '<td class="unit-image '+unitClass+'">'

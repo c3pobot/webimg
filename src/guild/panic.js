@@ -1,5 +1,6 @@
 'use strict'
 const getCharImg = require('../getCharImg')
+let nameWidth = 200, unitWidth = 280
 const getPlayerUnits = (units = [], roster = [])=>{
   let html = ''
   for(let i in units){
@@ -24,7 +25,7 @@ const getPlayerUnits = (units = [], roster = [])=>{
   return html
 }
 const getPlayerRow = (guideTemplate = {}, member = {})=>{
-  let html = `<tr class="${member.notMet ? 'playerNotMet':'playerMet'}"><td>${member.name}</td>`
+  let html = `<tr class="${member.notMet ? 'playerNotMet':'playerMet'}" style="border-top: 2px solid black;"><td>${member.name}</td>`
   if(guideTemplate.units?.length > 0){
     html += getPlayerUnits(guideTemplate.units, member.requiredUnits)
   }
@@ -47,18 +48,18 @@ const getUnits = (units = [], unitList = {})=>{
     let unit = unitList[units[i].baseId]
     if(!unit.baseId) continue
     if(unit.optional){
-      res.html1 += '<td align="center">OPT</td>'
+      res.html1 += `<td align="center" width="${unitWidth}">OPT</td>`
     }else{
-      res.html1 += '<td>&nbsp;</td>'
+      res.html1 += `<td width="${unitWidth}">&nbsp;</td>`
     }
-    res.html2 += '<td>'
+    res.html2 += '<td align="center">'
     res.html2 += getCharImg(unit)
     res.html2 += '</td>'
   }
   return res
 }
 const getHeaderRow = (guideTemplate = {}, unitList = {})=>{
-  let html1 = '<tr><td>&nbsp;</td>', html2 = '<tr><td>&nbsp;</td>'
+  let html1 = `<tr><td width="${nameWidth}">&nbsp;</td>`, html2 = '<tr><td>&nbsp;</td>'
     if(guideTemplate.units?.length > 0){
       let tempRes = getUnits(guideTemplate.units, unitList)
       html1 += tempRes.html1, html2 += tempRes.html2
@@ -86,7 +87,7 @@ module.exports = ({ guideTemplate = {}, unitList = {}, profile = {}, member = []
     html += '<link href="/css/unitImg.css" rel="stylesheet">'
     html += '</head>'
     html += '<body>'
-      html += '<table padding="0">'
+      html += `<table padding="0" cellspacing="0" cellpadding="0" width="${(unitWidth * unitList.count) + nameWidth}">`
       html += `<tr class="title"><td colspan="${unitList.count + 1}">${profile.name} readiness for ${guideTemplate?.name} (${member.filter(x=>x.notMet === 0).length}/${member.length})</td></tr>`
       html += getHeaderRow(guideTemplate, unitList)
       for(let i in member){

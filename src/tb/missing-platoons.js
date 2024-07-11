@@ -22,6 +22,8 @@ const getZoneUnit = (unit = {})=>{
   html += '</tr>'
   if(unit.players?.length > 0){
     for(let i in unit.players) html += getUnitPlayer(unit.players[i])
+  }else{
+    html += '<tr><td colspan="2" class="zoneNoUnit">No one has this unit available</td></tr>'
   }
   return html
 }

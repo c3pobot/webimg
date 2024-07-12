@@ -30,7 +30,7 @@ const GetSquadHTML = async(squadData = {}, opts = {})=>{
         html += '</tr>'
       }
     }
-    if(squadData.info?.note) html += '<tr><td class="squad-note" colspan="'+(opts.tdSpan || 5)+'">'+squadData.info.note+'</td></tr>'
+    if(squadData.note) html += '<tr><td class="squad-note" colspan="'+(opts.tdSpan || 5)+'">'+squadData.note+'</td></tr>'
     return html
   }catch(e){
     console.error(e)

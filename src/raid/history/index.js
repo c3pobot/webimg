@@ -23,13 +23,11 @@ module.exports = async(data = {})=>{
       html += '<tr class="title"><td colspan="2">'+data.name+' ('+data.gp?.toLocaleString()+') '+data.nameKey+'</td></tr>'
       //html += '<tr class="'+getBkg(99999)+'"><td>Player</td><td>Count</td><td>Low</td><td>Avg</td><td>High</td></tr>'
       html += '<tr class="'+getBkg(99999)+'"><td>Player</td><td>Score</td></tr>'
+      html += `<tr class="${getBkg()}"><td>Guild Total</td><td>${data.guildTotal?.toLocaleString()}</td></tr>`
       for(let i in data.leaderBoard){
         html += '<tr class="'+getBkg()+'">'
-          html += '<td>'+data.leaderBoard[i].playerName+'</td>'
-          //html += '<td>'+(data.leaderBoard[i].scores?.length || 0)+'</td>'
-          //html += '<td>'+(+data.leaderBoard[i].low || 0).toLocaleString()+'</td>'
-          //html += '<td>'+(+data.leaderBoard[i].avg || 0).toLocaleString()+'</td>'
-          html += '<td>'+(+data.leaderBoard[i].high || 0).toLocaleString()+'</td>'
+          html += '<td>'+data.leaderBoard[i].name+'</td>'
+          html += '<td>'+(+data.leaderBoard[i].score || 0).toLocaleString()+'</td>'
         html += '</tr>'
       }
     if(data.date){

@@ -1,7 +1,8 @@
 'use strict'
 const squadStatusMap = {
   "SQUADAVAILABLE": "Loss",
-  "SQUADDEFEATED": "Win"
+  "SQUADDEFEATED": "Win",
+  "RETREAT": "Retreat"
 }
 const isOdd = (num)=>{
   return num % 2

@@ -73,7 +73,7 @@ module.exports = async( pUnit = {}, eUnit = {}, info = {})=>{
           }
         }
         if(pUnit.specStat?.info?.length > 0){
-          html += '<tr><td colspan="3" class="stat-title">'+(unit1.specStat.nameKey ? unit1.specStat.nameKey:'')+'</td></tr>'
+          html += '<tr><td colspan="3" class="stat-title">'+(pUnit?.specStat?.nameKey ? pUnit.specStat.nameKey:'')+'</td></tr>'
           for(let i in pUnit.specStat.info){
             let bkImg = 'stat-even'
             if(isOdd(oddCount)) bkImg = 'stat-odd'

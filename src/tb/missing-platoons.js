@@ -13,7 +13,7 @@ const getUnitPlayer = (player = {})=>{
 const getZoneUnit = (unit = {})=>{
   let html = `<tr><td colspan="2" class="zoneUnitName">`
   if(unit.relic > 0){
-    html += `R${unit.relic} `
+    html += `R${+unit.relic - 2} `
   }else{
     html += `${unit.rarity}* `
   }

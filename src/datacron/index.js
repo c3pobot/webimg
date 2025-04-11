@@ -16,7 +16,12 @@ const enumRows = {
   6: 2,
   7: 2,
   8: 2,
-  9: 3
+  9: 3,
+  10: 3,
+  11: 3,
+  12: 4,
+  13: 4,
+  14: 4
 }
 const formatStatName = (statName, ln = 3)=>{
   let array = statName.split(' ')
@@ -25,13 +30,19 @@ const formatStatName = (statName, ln = 3)=>{
   for(let i in array) str += array[i].substring(0, array.length > 1 ? 1:ln)+' '
   return str
 }
-const getStats = ( data = [], def = {} )=>{
+const getStats = ( data = [], def = {}, statMap )=>{
   let html, tempObj = {}, colCount = 0
   for(let i in data){
+    if(data[i].statType && statMap[data[i].statType]){
+      if(!tempObj[data[i].statType]) tempObj[data[i].statType] = { id: data[i].statType, name: statMap[data[i].statType].nameKey, value: 0, pct: statMap[data[i].statType].pct }
+      tempObj[data[i].statType].value += (+data[i].statValue || 0) / 1e8
+    }
+    /*
     if(data[i].statType && def[data[i].statType]){
       if(!tempObj[data[i].statType]) tempObj[data[i].statType] = { id: data[i].statType, name: def[data[i].statType].nameKey, value: 0, pct: def[data[i].statType]}
       tempObj[data[i].statType].value += (+data[i].statValue || 0) / 1e8
     }
+    */
   }
   tempObj = Object.values(tempObj)
   if(tempObj?.length > 0){
@@ -50,26 +61,61 @@ const getStats = ( data = [], def = {} )=>{
   }
   return html
 }
-const getDataCron = (datacron = {}, def = {})=>{
-  let rowCount = enumRows[datacron.level]
-  let stats = getStats(datacron.affix, def.stat)
+const getDataCron = (datacron = {}, def = {}, statMap = {})=>{
+  //let rowCount = enumRows[datacron.level]
+  let rowCount = 0, cronLevel = (datacron.affix?.length || 0), scopeIcon
+  if(cronLevel > 0) scopeIcon = datacron.affix[cronLevel - 1]?.scopeIcon
+  let stats = getStats(datacron.affix, def.stat, statMap)
+  let abilities = datacron?.affix?.filter(x=>x.abilityId)
+  let alignmentText, abilityText, unitText
+  if(abilities?.length > 0){
+    for(let i in abilities){
+      if(abilities[i].abilityId?.includes('alignment')){
+        if(!alignmentText){
+          alignmentText = '<b>Alignment : </b><br>'
+        }else{
+          alignmentText += '<br>'
+        }
+        alignmentText += def.ability[abilities[i]?.abilityId]?.target[abilities[i]?.targetRule]?.descKey
+      }else{
+        if(def.ability[abilities[i]?.abilityId]?.target[abilities[i]?.targetRule]?.unit?.baseId){
+          if(!unitText){
+            unitText = '<b>Unit : </b><br>'
+          }else{
+            unitText += '<br>'
+          }
+          unitText += def.ability[abilities[i]?.abilityId]?.target[abilities[i]?.targetRule]?.descKey
+        }else{
+          if(!abilityText){
+            abilityText = '<b>Faction : </b><br>'
+          }else{
+            abilityText += '<br>'
+          }
+          abilityText += def.ability[abilities[i]?.abilityId]?.target[abilities[i]?.targetRule]?.descKey
+        }
+      }
+    }
+  }
+  if(alignmentText) rowCount++
+  if(abilityText) rowCount++
+  if(unitText) rowCount++
   let html = '<table border="0" padding="0">'
     html += '<tr>'
       html += '<td rowspan="'+rowCount+'" valign="top" width="70px">'
-      html += getDCImg(datacron, def)
+      html += getDCImg(datacron, def, scopeIcon)
       if(stats) html += '<td rowspan="'+rowCount+'" valign="top" width="100px">'+stats+'</td>'
-      if(rowCount >= 1){
-        html += '<td class="datacron-text" width="500px"><b>Alignment : </b><br>'+def.ability[datacron.affix[2]?.abilityId]?.target[datacron.affix[2]?.targetRule]?.descKey+'</td>'
+      if(alignmentText){
+        html += `<td class="datacron-text" width="500px">${alignmentText}</td>`
       }else{
         html += '<td class="datacron-text" width="500px">&nbsp;</td>'
       }
     html += '</tr>'
-    if(rowCount >= 2) html += '<tr><td class="datacron-text" width="500px"><b>Faction : </b><br>'+def.ability[datacron.affix[5]?.abilityId]?.target[datacron.affix[5]?.targetRule]?.descKey+'</td></tr>'
-    if(rowCount >= 3) html += '<tr><td class="datacron-text" width="500px"><b>Unit : </b><br>'+def.ability[datacron.affix[8]?.abilityId]?.target[datacron.affix[8]?.targetRule]?.descKey+'<td></tr>'
+    if(abilityText) html += `<tr><td class="datacron-text" width="500px">${abilityText}</td></tr>`
+    if(unitText) html += `<tr><td class="datacron-text" width="500px">${unitText}</td><tr>`
   html += '</table>'
   return html
 }
-const getDataCrons = (data = [], def = {})=>{
+const getDataCrons = (data = [], def = {}, statMap)=>{
   if(!data || data.length == 0) return
   data = sorter(sortTemplate, data)
   let html = '<table border="0" padding="0">', colCount = 0, oddCount = 0, rowClass = 'datacron-row-even'
@@ -86,7 +132,7 @@ const getDataCrons = (data = [], def = {})=>{
       }
       colCount++;
       html += '<td valign="top" class="'+rowClass+'">'
-      html += getDataCron(data[i], def)
+      html += getDataCron(data[i], def, statMap)
       html += '</td>'
       if(+i + 1 === +data.length){
         if(colCount < 3) html += '<td>&nbsp;</td>'
@@ -100,7 +146,7 @@ const getDataCrons = (data = [], def = {})=>{
   html += '</table>'
   return html
 }
-module.exports = ({ data = [], info = {}, dcDef = {}})=>{
+module.exports = ({ data = [], info = {}, dcDef = {}}, statMap = {})=>{
   let html = '<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0">'
   html += '<link href="https://fonts.googleapis.com/css?family=Antic" rel="stylesheet">'
   html += '<link href="/css/gaHist.css" rel="stylesheet">'
@@ -110,8 +156,9 @@ module.exports = ({ data = [], info = {}, dcDef = {}})=>{
     html += '<table width="1400px">'
     html += '<tr><td class="datacron-footer">'+info.name+' Datacron(s)'+'</td></tr>'
     for(let i in dcDef){
-      if(!dcDef[i].id) continue
-      let tempObj = getDataCrons(data.filter(x=>x.templateId === dcDef[i].id), dcDef[i])
+      //if(!dcDef[i].id || !dcDef[i].focused) continue
+
+      let tempObj = getDataCrons(data.filter(x=>x.templateId === dcDef[i].id), dcDef[i], statMap)
       if(tempObj) html += '<tr><td>'+tempObj+'</td></tr>'
     }
     html += '<tr><td class="datacron-footer">Data Updated '+(new Date(+info.updated)).toLocaleString('en-US', {timeZone: 'America/New_York'})+'</td></tr>'

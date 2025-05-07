@@ -1,7 +1,7 @@
 'use strict'
 const squadStatusMap = {
-  "SQUADAVAILABLE": "Loss",
-  "SQUADDEFEATED": "Win",
+  "SQUAD_AVAILABLE": "Loss",
+  "SQUAD_DEFEATED": "Win",
   "RETREAT": "Retreat"
 }
 const isOdd = (num)=>{

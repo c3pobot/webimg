@@ -17,7 +17,8 @@ module.exports = ({ members = [], missingDeployment = '0', memberCount = 0, guil
     html += '<table width=100% border="0" class="review">'
     html += `<tr class="title"><td colspan="6">${guildName} Members with possible missing deployment (${memberCount}/${guildMemberCount})</td></tr>`
     html += `<tr class="memberOdd"><td>Name</td><td>Deployed</td><td>Not Deployed</td><td>Total</td><td>Char</td><td>Ship</td></tr>`
-    let oddCount = 0
+    html += `<tr class="memberEven"><td>${guildName}</td><td>&nbsp;</td><td>${missingDeployment}</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>`
+    let oddCount = 1
     for(let i in members){
       html += `<tr class="${getBkCSS(oddCount)}"><td>${members[i].name}</td><td>${members[i].gpDeployed}</td><td>${members[i].gpNotDeployed}</td><td>${members[i].gp}</td><td>${members[i].gpChar}</td><td>${members[i].gpShip}</td></tr>`
       oddCount++
